@@ -2,16 +2,16 @@
 
 ### Node.js
 
-ZSH_THEME_NODE_PROMPT_PREFIX="%B⬡%b "
+ZSH_THEME_NODE_PROMPT_PREFIX="%B⬡%b "
 
 # get the node-controlled node.js version
 function node_prompt_info () {
   which node &>/dev/null || return
   local node_prompt=${$(node -v)#v}
-  echo "${ZSH_THEME_NODE_PROMPT_PREFIX}${node_prompt:gs/%/%%}"
+  echo "[${ZSH_THEME_NODE_PROMPT_PREFIX}${node_prompt:gs/%/%%}]"
 }
 
-### Git [±main ▾●]
+### Git [±main ▾●]
 
 ZSH_THEME_GIT_PROMPT_PREFIX="[%{$fg_bold[green]%}±%{$reset_color%}%{$fg_bold[white]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}]"
@@ -126,7 +126,7 @@ firefoxic_precmd() {
 
 setopt prompt_subst
 PROMPT='> $_LIBERTY '
-RPROMPT='$(node_prompt_info) $(firefoxic_git_prompt)'
+RPROMPT='$(firefoxic_git_prompt)$(node_prompt_info)'
 
 autoload -U add-zsh-hook
 add-zsh-hook precmd firefoxic_precmd
