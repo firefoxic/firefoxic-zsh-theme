@@ -1,5 +1,9 @@
 # oh-my-zsh firefoxic Theme
 
+### NVM
+# ZSH_THEME_NVM_PROMPT_PREFIX="%B⬡%b "
+# ZSH_THEME_NVM_PROMPT_SUFFIX=""
+
 ### Node.js
 
 ZSH_THEME_NODE_PROMPT_PREFIX="%B⬡%b "
@@ -21,6 +25,7 @@ ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg[magenta]%}▾%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_STAGED="%{$fg_bold[green]%}●%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg_bold[yellow]%}●%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg_bold[red]%}●%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_STASHED="(%{$fg_bold[blue]%}✹%{$reset_color%})"
 
 firefoxic_git_info () {
   local ref
@@ -122,7 +127,7 @@ get_space () {
 }
 
 _1LEFT="$_USERNAME $_PATH"
-_1RIGHT="[%*]"
+_1RIGHT="$(firefoxic_git_prompt)$(node_prompt_info)"
 
 firefoxic_precmd () {
   _1SPACES=`get_space $_1LEFT $_1RIGHT`
@@ -132,7 +137,6 @@ firefoxic_precmd () {
 
 setopt prompt_subst
 PROMPT='> $_LIBERTY '
-RPROMPT='$(firefoxic_git_prompt)$(node_prompt_info)'
 
 autoload -U add-zsh-hook
 add-zsh-hook precmd firefoxic_precmd
