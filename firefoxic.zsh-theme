@@ -22,14 +22,14 @@ ZSH_THEME_GIT_PROMPT_STAGED="%{$fg_bold[green]%}●%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg_bold[yellow]%}●%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg_bold[red]%}●%{$reset_color%}"
 
-firefoxic_git_info() {
+firefoxic_git_info () {
   local ref
   ref=$(command git symbolic-ref HEAD 2> /dev/null) || \
   ref=$(command git rev-parse --short HEAD 2> /dev/null) || return
   echo "${ref#refs/heads/}"
 }
 
-firefoxic_git_status() {
+firefoxic_git_status () {
   local result gitstatus
   gitstatus="$(command git status --porcelain -b 2>/dev/null)"
 
@@ -72,7 +72,7 @@ firefoxic_git_status() {
   echo $result
 }
 
-firefoxic_git_prompt() {
+firefoxic_git_prompt () {
   # check git information
   local gitinfo=$(firefoxic_git_info)
   if [[ -z "$gitinfo" ]]; then
@@ -105,7 +105,7 @@ _USERNAME="$_USERNAME%{$reset_color%}@%m"
 _LIBERTY="$_LIBERTY%{$reset_color%}"
 
 
-get_space() {
+get_space () {
   local STR=$1$2
   local zero='%([BSUbfksu]|([FB]|){*})'
   local LENGTH=${#${(S%%)STR//$~zero/}}
@@ -118,7 +118,7 @@ get_space() {
 _1LEFT="$_USERNAME $_PATH"
 _1RIGHT="[%*]"
 
-firefoxic_precmd() {
+firefoxic_precmd () {
   _1SPACES=`get_space $_1LEFT $_1RIGHT`
   print
   print -rP "$_1LEFT$_1SPACES$_1RIGHT"
