@@ -1,9 +1,5 @@
 # oh-my-zsh firefoxic Theme
 
-### NVM
-# ZSH_THEME_NVM_PROMPT_PREFIX="%B⬡%b "
-# ZSH_THEME_NVM_PROMPT_SUFFIX=""
-
 ### Node.js
 
 ZSH_THEME_NODE_PROMPT_PREFIX="%B⬡%b "
@@ -79,8 +75,7 @@ firefoxic_git_status () {
 
 firefoxic_git_prompt () {
 	# ignore non git folders and hidden repos (adapted from lib/git.zsh)
-	if ! command git rev-parse --git-dir &> /dev/null \
-		 || [[ "$(command git config --get oh-my-zsh.hide-info 2>/dev/null)" == 1 ]]; then
+	if ! command git rev-parse --git-dir &> /dev/null || [[ "$(command git config --get oh-my-zsh.hide-info 2>/dev/null)" == 1 ]]; then
 		return
 	fi
 
@@ -102,41 +97,15 @@ firefoxic_git_prompt () {
 	echo "${ZSH_THEME_GIT_PROMPT_PREFIX}${output}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
 }
 
-
-_PATH="%{$fg_bold[white]%}%~%{$reset_color%}"
-
 if [[ $EUID -eq 0 ]]; then
-	_USERNAME="%{$fg_bold[red]%}%n"
 	_LIBERTY="%{$fg[red]%}#"
 else
-	_USERNAME="%{$fg_bold[white]%}%n"
 	_LIBERTY="%{$fg[green]%}$"
 fi
-_USERNAME="$_USERNAME%{$reset_color%}@%m"
 _LIBERTY="$_LIBERTY%{$reset_color%}"
-
-
-get_space () {
-	local STR=$1$2
-	local zero='%([BSUbfksu]|([FB]|){*})'
-	local LENGTH=${#${(S%%)STR//$~zero/}}
-	local SPACES=$(( COLUMNS - LENGTH - ${ZLE_RPROMPT_INDENT:-1} ))
-
-	(( SPACES > 0 )) || return
-	printf ' %.0s' {1..$SPACES}
-}
-
-_1LEFT="$_USERNAME $_PATH"
-_1RIGHT="$(firefoxic_git_prompt)$(node_prompt_info)"
-
-firefoxic_precmd () {
-	_1SPACES=`get_space $_1LEFT $_1RIGHT`
-	print
-	print -rP "$_1LEFT$_1SPACES$_1RIGHT"
-}
 
 setopt prompt_subst
 PROMPT='> $_LIBERTY '
+RPROMPT='$(firefoxic_git_prompt)$(node_prompt_info)'
 
 autoload -U add-zsh-hook
-add-zsh-hook precmd firefoxic_precmd
